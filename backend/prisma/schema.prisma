@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Roles {
+  ADMIN
+  USER
+}
+
+enum BountyStatus {
+  open
+  accepted
+  completed
+}
+
+model Bounty {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  target      String
+  planet      String
+  reward      Float
+  status      BountyStatus @default(open)
+
+  creator   User   @relation("CreatedBounties", fields: [creatorId], references: [id])
+  creatorId String @db.ObjectId
+
+  image String
+
+  acceptedBy   User?   @relation("AcceptedBounties", fields: [acceptedById], references: [id])
+  acceptedById String? @db.ObjectId
+
+  @@index([creatorId])
+  @@index([acceptedById])
+}
+
+model User {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  email    String @unique
+  password String
+  role     Roles  @default(USER)
+
+  // Relations
+  createdBounties  Bounty[] @relation("CreatedBounties")
+  acceptedBounties Bounty[] @relation("AcceptedBounties")
+}
