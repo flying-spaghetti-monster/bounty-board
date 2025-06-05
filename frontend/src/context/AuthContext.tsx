@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { setToken } from '../helper/localSorageHelper';
 import { Login } from '../types';
+import { SERVER_URL } from '../lib/constants';
 
 type AuthPageContextType = {
   isLogin: boolean,
@@ -35,10 +36,8 @@ export const AuthPageProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const navigate = useNavigate();
   const registration = useCallback(async (data: Login) => {
-    console.log(data)
     try {
-      const res = await axios.post<Response>('http://localhost:3001/api/auth/registration', data);
-      console.log(res)
+      const res = await axios.post<Response>(`${SERVER_URL}/auth/registration`, data);
       if (res.status === 201) {
         toast.success("Registration successful!");
         navigate('/login');
@@ -53,9 +52,7 @@ export const AuthPageProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = useCallback(async (data: Login) => {
     try {
-      const res = await axios.post<Response>('http://localhost:3001/api/auth/login', data);
-
-      console.log(res)
+      const res = await axios.post<Response>(`${SERVER_URL}/auth/login`, data);
 
       if (res.status === 200) {
         toast.success("Login successful!");

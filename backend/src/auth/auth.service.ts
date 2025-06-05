@@ -13,7 +13,6 @@ export class AuthService {
   ) { }
 
   async create(dto: CreateAuthDto) {
-    console.log(dto);
     const salt = await genSalt(10);
 
     const newUser = await this.prisma.user.create({

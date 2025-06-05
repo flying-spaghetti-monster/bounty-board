@@ -22,7 +22,6 @@ enum Roles {
 enum BountyStatus {
   open
   accepted
-  completed
 }
 
 model Bounty {
@@ -34,13 +33,13 @@ model Bounty {
   reward      Float
   status      BountyStatus @default(open)
 
-  creator   User   @relation("CreatedBounties", fields: [creatorId], references: [id])
   creatorId String @db.ObjectId
+  creator   User   @relation("CreatedBounties", fields: [creatorId], references: [id])
 
   image String
 
-  acceptedBy   User?   @relation("AcceptedBounties", fields: [acceptedById], references: [id])
   acceptedById String? @db.ObjectId
+  acceptedBy   User?   @relation("AcceptedBounties", fields: [acceptedById], references: [id])
 
   @@index([creatorId])
   @@index([acceptedById])

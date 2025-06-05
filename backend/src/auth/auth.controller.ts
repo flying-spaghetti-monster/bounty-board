@@ -21,7 +21,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() dto: LoginAuthDto) {
-    console.log(dto);
     const user = await this.authService.validateUser(dto.email, dto.password);
     if (!user) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);

@@ -2,30 +2,29 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { JwtService } from '@nestjs/jwt';
 import { JWTConfigs } from '../configs/jwt.config';
 import { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) { }
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
+
     if (!token) {
       throw new UnauthorizedException();
     }
     try {
-      const secret = JWTConfigs;
-      console.log(secret);
-      const payload = await this.jwtService.verifyAsync(
-        token,
-        {
-          secret: 'edsda'
-        }
-      );
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
-      request['user'] = payload;
-    } catch {
+      const jwtOptions = await JWTConfigs(this.configService);
+      const secret = jwtOptions.secret;
+      const payload = await this.jwtService.verifyAsync(token, { secret });
+
+      request['userId'] = payload.sub;
+    } catch (error) {
+      console.error('JWT verification failed:', error.message);
       throw new UnauthorizedException();
     }
     return true;
