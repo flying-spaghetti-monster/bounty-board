@@ -48,7 +48,7 @@ function PaginationButton({
         onClick();
         e.currentTarget.blur();
       }}
-      className={`pagination__button pagination__button--${direction}`}
+      className={`pagination__button pagination__button--${direction} pb-1`}
     >
       {direction === "previous" && (
         <>
