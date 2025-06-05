@@ -1,4 +1,3 @@
-// import PageMeta from "../../components/PageMeta";
 import { useAuthPage } from '../../context/AuthContext';
 import SignForm from './SignForm';
 
@@ -8,11 +7,6 @@ export default function SignUp() {
   setLogin(false)
   return (
     <>
-      {/* <PageMeta
-        title="React.js SignUp"
-        description="This is React.js SignUp"
-      /> */}
-
       <SignForm onSubmit={registration} />
     </>
   );

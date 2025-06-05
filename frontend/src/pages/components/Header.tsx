@@ -7,7 +7,7 @@ import CreateBoyntyJob from '../components/CreateBoyntyJob';
 
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isLoggedIn } = useSitePage();
+  const { isLoggedIn, handleLogaut } = useSitePage();
 
   return (
     <>
@@ -21,8 +21,13 @@ export default function Header() {
             <AddIcon />
             Add Job
           </button>)}
-        <Link className='flex w-20 justify-center  rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500
-       focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer' to={isLoggedIn ? '/logout' : '/login'}>{isLoggedIn ? 'Logout' : 'Login'}</Link>
+        {!isLoggedIn ? (
+          <Link className='flex w-20 justify-center  rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500
+        focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer' to='/login'>Login</Link>
+        ) : (
+          <button onClick={handleLogaut} className='flex w-20 justify-center  rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer'>Logaut</button>
+        )}
       </header>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <CreateBoyntyJob setIsModalOpen={setIsModalOpen} />

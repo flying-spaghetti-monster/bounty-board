@@ -21,7 +21,7 @@ export default function JobListItem({ jobItem, isActive }: ListItemProps) {
         </div>
 
         <div className="job-item__right">
-          <AcceptIcon id={jobItem.id} />
+          <AcceptIcon id={jobItem.id} status={jobItem.status} />
         </div>
       </a>
     </li>

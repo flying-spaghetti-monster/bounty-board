@@ -82,7 +82,6 @@ export const AuthPageProvider: React.FC<{ children: React.ReactNode }> = ({
     ]
   );
 
-
   return (
     <AuthPageContext.Provider value={contextValue} >
       {children}

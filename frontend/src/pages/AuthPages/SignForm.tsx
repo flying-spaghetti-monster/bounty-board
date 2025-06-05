@@ -31,7 +31,6 @@ export default function SignForm({ onSubmit }: {
             <div className="mt-2">
               <input
                 id="email"
-                // name="email"
                 type="email"
                 {...register("email", { required: true })}
                 required
@@ -51,8 +50,7 @@ export default function SignForm({ onSubmit }: {
             <div className="mt-2">
               <input
                 id="password"
-                // name="password"
-                // type="password"
+                type='password'
                 {...register("password", { required: true })}
                 required
                 autoComplete="current-password"

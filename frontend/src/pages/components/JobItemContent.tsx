@@ -6,6 +6,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useSitePage } from '../../context/SiteContext';
+import { cp } from '../../lib/utils';
 
 export default function JobItemContent() {
   const activeId = useActiveId();
@@ -20,14 +21,17 @@ export default function JobItemContent() {
   if (!jobItem) {
     return <EmptyJobContent />;
   }
+  const isAccepted: boolean = jobItem.status ? jobItem.status === 'accepted' : false;
 
   return (
     <section className="job-details">
       <div>
         <img src={jobItem.image} alt="#" />
-
         {isLoggedIn && (
-          <button className="apply-btn" onClick={(e) => {
+          <button className={cp("apply-btn", {
+            "bg-[#2671dd] hover:bg-[#4e6bd1]": !isAccepted,
+            "bg-gray-600 hover:bg-gray-600": isAccepted
+          })} disabled={isAccepted} onClick={(e) => {
             handleAceptJob(activeId);
             e.stopPropagation();
             e.preventDefault();

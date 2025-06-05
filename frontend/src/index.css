@@ -185,7 +185,6 @@ body {
 /* APPLY BTN */
 .apply-btn {
   position: absolute;
-  background-color: #2671dd;
   z-index: 2;
   color: rgba(255, 255, 255, 0.92);
   font-size: 11px;
@@ -200,11 +199,11 @@ body {
   align-items: center;
 }
 
-.apply-btn:hover,
+/* .apply-btn:hover,
 .apply-btn:focus {
   background-color: #1d60bd;
   color: rgba(255, 255, 255, 1);
-}
+} */
 
 .apply-btn__icon {
   color: rgba(255, 255, 255, 0.65);

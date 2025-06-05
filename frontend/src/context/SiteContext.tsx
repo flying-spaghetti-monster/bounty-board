@@ -5,7 +5,8 @@ import { Bounty, PageDirection } from '../types';
 import { instance as axios } from '../api/axios';
 import { useQuery } from '@tanstack/react-query';
 import { RESULTS_PER_PAGE } from '../lib/constants';
-import { getToken } from '../helper/localSorageHelper';
+import { getToken, removeToken } from '../helper/localSorageHelper';
+import { useNavigate } from 'react-router';
 
 type SitePageContextType = {
   isLoggedIn: boolean,
@@ -23,6 +24,7 @@ type SitePageContextType = {
   setSortByStatus: (val: string) => void;
   handleChangePage: (val: string) => void;
   setPersonalOnly: (val: boolean) => void;
+  handleLogaut: () => void;
 };
 
 const SitePageContext = createContext<SitePageContextType | undefined>(undefined);
@@ -49,6 +51,7 @@ export const SitePageProvider: React.FC<{ children: React.ReactNode }> = ({
   const [sortByStatus, setSortByStatus] = useState();
   const [isPersonalOnly, setPersonalOnly] = useState(false);
   const isLoggedIn = !!getToken();
+  const navigate = useNavigate();
 
   const query = qs.stringify({
     page: currentPage,
@@ -88,6 +91,12 @@ export const SitePageProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
+  const handleLogaut = useCallback(() => {
+    removeToken();
+    toast.success("You saccseed Logaut!");
+    navigate('/');
+  }, []);
+
   const contextValue = useMemo(
     () => ({
       isLoggedIn,
@@ -105,7 +114,7 @@ export const SitePageProvider: React.FC<{ children: React.ReactNode }> = ({
       setSortByPlanet,
       setSortByStatus,
       handleChangePage,
-
+      handleLogaut,
     }),
     [
       isLoggedIn,
@@ -123,6 +132,7 @@ export const SitePageProvider: React.FC<{ children: React.ReactNode }> = ({
       setSortByPlanet,
       setSortByStatus,
       handleChangePage,
+      handleLogaut,
     ]
   );
 

@@ -1,5 +1,4 @@
 
-// import { JobItem } from "../lib/types";
 import { useActiveId } from '../../hooks/hooks';
 import { Bounty } from '../../types';
 import JobListItem from "./JobListItem";
