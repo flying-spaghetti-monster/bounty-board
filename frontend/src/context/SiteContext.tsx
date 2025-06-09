@@ -10,19 +10,19 @@ import { useNavigate } from 'react-router';
 
 type SitePageContextType = {
   isLoggedIn: boolean,
-  itemsSortedAndSliced: []
+  itemsSortedAndSliced: Bounty[],
   isLoading: boolean,
   isPersonalOnly: boolean,
   total: number,
   currentPage: number,
-  setCurrentPage: number,
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
   totalPerPages: number,
   sortByPlanet: string | null,
   sortByStatus: string | null,
   handleAceptJob: (val: string) => void;
   setSortByPlanet: (val: string) => void;
   setSortByStatus: (val: string) => void;
-  handleChangePage: (val: string) => void;
+  handleChangePage: (direction: PageDirection) => void;
   setPersonalOnly: (val: boolean) => void;
   handleLogaut: () => void;
 };
@@ -40,15 +40,15 @@ export const useSitePage = () => {
 
 type Response = {
   total: number,
-  data: Bounty[]
+  items: Bounty[]
 }
 
 export const SitePageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortByPlanet, setSortByPlanet] = useState();
-  const [sortByStatus, setSortByStatus] = useState();
+  const [sortByPlanet, setSortByPlanet] = useState<string | null>(null);
+  const [sortByStatus, setSortByStatus] = useState<string | null>(null);
   const [isPersonalOnly, setPersonalOnly] = useState(false);
   const isLoggedIn = !!getToken();
   const navigate = useNavigate();
@@ -64,15 +64,14 @@ export const SitePageProvider: React.FC<{ children: React.ReactNode }> = ({
   const { data, isLoading } = useQuery<Response>({
     queryKey: ['bounty-list', currentPage, sortByPlanet, sortByStatus, isPersonalOnly],
     staleTime: 1000 * 60 * 5,
-    keepPreviousData: true,
     queryFn: async () => {
       const response = isPersonalOnly ? await axios.post(`/bounty?${query}`) : await axios.get(`/bounty?${query}`);
       return response.data;
     }
   })
 
-  const itemsSortedAndSliced = data && data.items;
-  const total = data && data.total;
+  const itemsSortedAndSliced = data && data.items ? data.items : [];
+  const total = data && typeof data.total === 'number' ? data.total : 0;
 
   const totalPerPages = total / RESULTS_PER_PAGE;
 

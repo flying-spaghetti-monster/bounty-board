@@ -12,22 +12,26 @@ export default function PaginationControls() {
   } = useSitePage();
 
   return (
-    <section className="pagination">
-      {currentPage > 1 && (
-        <PaginationButton
-          direction="previous"
-          currentPage={currentPage}
-          onClick={() => onClick("previous")}
-        />
-      )}
-      {currentPage < totalPerPages && (
-        <PaginationButton
-          direction="next"
-          currentPage={currentPage}
-          onClick={() => onClick("next")}
-        />
-      )}
-    </section>
+    <>
+      {currentPage && (
+        <section className="pagination">
+          {currentPage > 1 && (
+            <PaginationButton
+              direction="previous"
+              currentPage={currentPage}
+              onClick={() => onClick("previous")}
+            />
+          )}
+          {currentPage < totalPerPages && (
+            <PaginationButton
+              direction="next"
+              currentPage={currentPage}
+              onClick={() => onClick("next")}
+            />
+          )}
+        </section>)
+      }
+    </>
   );
 }
 

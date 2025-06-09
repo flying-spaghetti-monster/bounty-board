@@ -24,6 +24,7 @@ export class AuthService {
     });
 
     return {
+      status: HttpStatus.CREATED,
       message: `User with ${dto.email} was created`,
     };
   }
@@ -37,6 +38,7 @@ export class AuthService {
     const payload = { sub: user.id, username: user.email };
 
     return {
+      status: HttpStatus.ACCEPTED,
       access_token: await this.jwtService.signAsync(payload),
     };
   }

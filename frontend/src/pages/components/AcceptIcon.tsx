@@ -1,7 +1,5 @@
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { useSitePage } from '../../context/SiteContext';
-import { Status } from '../../types';
-import { cp } from '../../lib/utils';
 
 type AcceptIconProps = {
   id: string;

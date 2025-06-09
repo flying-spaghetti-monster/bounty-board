@@ -2,21 +2,21 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateBountyDto {
   @IsString()
-  title;
+  title: string
 
   @IsString()
-  description;
+  description: string
 
   @IsString()
-  target;
+  target: string
 
   @IsString()
-  planet;
+  planet: string
 
   @IsNumber()
-  reward;
+  reward: number
 
   @IsOptional()
   @IsString()
-  image
+  image: string
 }

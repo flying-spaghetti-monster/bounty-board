@@ -7,10 +7,11 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useSitePage } from '../../context/SiteContext';
 import { cp } from '../../lib/utils';
+import { Bounty } from '../../types';
 
 export default function JobItemContent() {
   const activeId = useActiveId();
-  const { jobItem, isLoading } = useGetBountyById(activeId);
+  const { jobItem, isLoading } = useGetBountyById(activeId) as { jobItem: Bounty | null, isLoading: boolean };
   const { handleAceptJob } = useSitePage();
   const { isLoggedIn } = useSitePage();
 
@@ -32,7 +33,9 @@ export default function JobItemContent() {
             "bg-[#2671dd] hover:bg-[#4e6bd1]": !isAccepted,
             "bg-gray-600 hover:bg-gray-600": isAccepted
           })} disabled={isAccepted} onClick={(e) => {
-            handleAceptJob(activeId);
+            if (activeId) {
+              handleAceptJob(activeId);
+            }
             e.stopPropagation();
             e.preventDefault();
           }}>

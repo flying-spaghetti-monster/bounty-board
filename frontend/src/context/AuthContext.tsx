@@ -26,7 +26,8 @@ export const useAuthPage = () => {
 
 type Response = {
   status: number,
-  data: {}
+  data: {};
+  access_token?: string;
 }
 
 export const AuthPageProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -38,7 +39,9 @@ export const AuthPageProvider: React.FC<{ children: React.ReactNode }> = ({
   const registration = useCallback(async (data: Login) => {
     try {
       const res = await axios.post<Response>(`${SERVER_URL}/auth/registration`, data);
-      if (res.status === 201) {
+      const responseData = res.data;
+
+      if (responseData.status === 201) {
         toast.success("Registration successful!");
         navigate('/login');
       } else {
@@ -53,10 +56,11 @@ export const AuthPageProvider: React.FC<{ children: React.ReactNode }> = ({
   const login = useCallback(async (data: Login) => {
     try {
       const res = await axios.post<Response>(`${SERVER_URL}/auth/login`, data);
+      const responseData = res.data;
 
-      if (res.status === 200) {
+      if (responseData.status === 202) {
         toast.success("Login successful!");
-        setToken(res.data?.access_token || '');
+        setToken(responseData?.access_token || '');
         navigate('/');
       } else {
         toast.error("Login failed. Please try again.");

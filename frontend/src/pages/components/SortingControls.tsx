@@ -53,7 +53,7 @@ function SortingButton({ children, onClick, isActive }: SortingButtonProps) {
     <>
       {isLoggedIn && (
         <button
-          onClick={() => onClick((prev: boolean) => !prev)}
+          onClick={() => onClick(!isActive)}
           className={`sorting__button sorting__button--recent ${isActive ? "sorting__button--active" : ""
             }`}
         >
